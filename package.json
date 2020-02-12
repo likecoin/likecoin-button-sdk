@@ -1,0 +1,18 @@
+{
+  "name": "likecoin-button-sdk",
+  "version": "1.0.0",
+  "description": "LikeCoin button SDK",
+  "main": "src/sdk.js",
+  "scripts": {
+    "build": "webpack"
+  },
+  "author": "",
+  "license": "GPL-3.0-or-later",
+  "devDependencies": {
+    "@babel/core": "^7.8.4",
+    "@babel/preset-env": "^7.8.4",
+    "babel-loader": "^8.0.6",
+    "webpack": "^4.41.6",
+    "webpack-cli": "^3.3.11"
+  }
+}
