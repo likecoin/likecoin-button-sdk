@@ -2,6 +2,7 @@ const elements = document.querySelectorAll('div.likecoin-button-like');
 elements.forEach((div) => {
   const likerId = div.getAttribute('data-liker-id');
   if (!likerId) {
+    // eslint-disable-next-line no-console
     console.error('Cannot get data-liker-id attribute from LikeCoin button element');
     return;
   }
