@@ -1,4 +1,26 @@
-const elements = document.querySelectorAll('div.likecoin-button-like');
+const style = document.createElement('style');
+style.innerHTML = `
+.likecoin-button {
+  position: relative;
+  width: 100%;
+  max-width: 485px;
+  max-height: 240px;
+  margin: 0 auto;
+}
+.likecoin-button > div {
+  padding-top: 49.48454%;
+}
+.likecoin-button > iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+`;
+document.body.appendChild(style);
+
+const elements = document.querySelectorAll('.likecoin-embed.likecoin-button');
 elements.forEach((div) => {
   const likerId = div.getAttribute('data-liker-id');
   if (!likerId) {
@@ -12,9 +34,13 @@ elements.forEach((div) => {
   }
   href = encodeURIComponent(href);
   const src = `https://button.like.co/in/embed/${likerId}/button?referrer=${href}`;
+
+  // Inject a spacer for maintaining the aspect ratio for the `<iframe/>`
+  div.appendChild(document.createElement('div'));
+
   const iframe = document.createElement('iframe');
   iframe.setAttribute('src', src);
   iframe.setAttribute('frameborder', 0);
   iframe.setAttribute('scrolling', 'no');
-  div.appendChild(iframe); // TODO: replace div by iframe, instead of appending iframe under div
+  div.appendChild(iframe);
 });
