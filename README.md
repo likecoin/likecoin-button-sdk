@@ -2,6 +2,9 @@
 
 This is a script for embeding [LikeCoin button](https://like.co/in/creator) into webpages.
 
+## What is LikeCoin button?
+For introduction ot LikeCoin button, please refer to [user guide](https://docs.like.co/user-guide/likecoin-button) here.
+
 ## Usage
 
 1. Add the following `div` tag into the webpage at the position for embedding LikeCoin button:
@@ -20,3 +23,6 @@ See `dist/index.html` as an example.
 
 1. `npm install`
 2. `npm run build`
+
+## Reference
+Please refer to our [developer guide](https://docs.like.co/developer/likecoin-button).
