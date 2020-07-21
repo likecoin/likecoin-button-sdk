@@ -1,14 +1,24 @@
-class likeCoinButton {
+
+/**
+ * LikeButtonSdk Constructor
+ * @config liker info likerId:string ref:HtmlElement | string  href:string
+ */
+
+class LikeCoinButton {
     constructor(config) {
         this.likerId = config.likerId
         this.ref = config.ref
-        this.href = config.href
+        this.href = config.href ? config.href : window.location.href
         this.insertStyle()
     }
     mount() {
-        if(!this.ref instanceof HTMLElement){
+        if (this.ref instanceof HTMLElement === false) {
             this.ref = document.querySelector(`${this.ref}`)
         }
+        // set like user info
+        this.ref.classList.add('likecoin-embed', 'likecoin-button')
+        this.ref.setAttribute('data-liker-id', this.likerId)
+        this.ref.setAttribute('data-href', this.href)
 
         this.href = encodeURIComponent(this.href);
         const src = `https://button.like.co/in/embed/${this.likerId}/button?referrer=${this.href}`;
@@ -44,4 +54,4 @@ class likeCoinButton {
     }
 }
 
-export default likeCoinButton
+export default LikeCoinButton
