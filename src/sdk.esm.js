@@ -9,7 +9,7 @@ class LikeCoinButton {
     if (!config || !config.likerId) throw new Error('Missing config.likerId');
     this.likerId = config.likerId;
     this.ref = config.ref;
-    this.href = config.href ? config.href : window.location.href;
+    this.href = config.href || (window && window.location.href) || '';
     this.likeStyleElement = null;
     this.insertStyle();
   }
