@@ -33,6 +33,7 @@ module.exports = [{
     sdk: './src/sdk.esm.js',
   },
   output: {
+    globalObject: 'this', // mitigate window is undefined
     path: path.resolve(__dirname, 'dist'),
     filename: 'likecoin-button.js',
     library: 'likecoin-button',
