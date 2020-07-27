@@ -36,7 +36,12 @@ module.exports = [{
     globalObject: 'this', // mitigate window is undefined
     path: path.resolve(__dirname, 'dist'),
     filename: 'likecoin-button.js',
-    library: 'likecoin-button',
+    library: {
+      root: 'LikeCoinButton',
+      amd: 'likecoin-button',
+      commonjs: 'likecoin-button',
+    },
     libraryTarget: 'umd',
+    libraryExport: 'default',
   },
 }];

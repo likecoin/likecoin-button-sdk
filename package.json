@@ -1,5 +1,5 @@
 {
-  "name": "likecoin-button-sdk",
+  "name": "likecoin-button",
   "version": "1.0.0",
   "description": "LikeCoin button SDK",
   "main": "dist/likecoin-button.js",
