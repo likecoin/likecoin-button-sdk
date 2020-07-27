@@ -1,6 +1,6 @@
 {
-  "name": "likecoin-button",
-  "version": "1.0.0",
+  "name": "@likecoin/likecoin-button",
+  "version": "0.0.1",
   "description": "LikeCoin button SDK",
   "main": "dist/likecoin-button.js",
   "module": "src/sdk.esm.js",
