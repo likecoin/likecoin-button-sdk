@@ -6,6 +6,7 @@
 
 class LikeCoinButton {
   constructor(config) {
+    if (!config || !config.likerId) throw new Error('Missing config.likerId');
     this.likerId = config.likerId;
     this.ref = config.ref;
     this.href = config.href ? config.href : window.location.href;
