@@ -1,12 +1,7 @@
 const path = require('path');
 
-module.exports = {
+const commonConfig = {
   mode: 'production',
-  entry: './src/sdk.js',
-  output: {
-    path: path.resolve(__dirname, 'dist'),
-    filename: 'sdk.js'
-  },
   module: {
     rules: [
       {
@@ -16,9 +11,31 @@ module.exports = {
           loader: 'babel-loader',
           options: {
             presets: ['@babel/preset-env']
-          }
-        }
-      }
-    ]
-  }
+          },
+        },
+      },
+    ],
+  },
 };
+
+module.exports = [{
+  ...commonConfig,
+  entry: {
+    web: './src/web.js',
+  },
+  output: {
+    path: path.resolve(__dirname, 'dist', 'web', 'v1'),
+    filename: 'sdk.js',
+  },
+}, {
+  ...commonConfig,
+  entry: {
+    sdk: './src/sdk.esm.js',
+  },
+  output: {
+    path: path.resolve(__dirname, 'dist'),
+    filename: 'likecoin-button.js',
+    library: 'likecoin-button',
+    libraryTarget: 'umd',
+  },
+}];

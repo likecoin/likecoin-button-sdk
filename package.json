@@ -2,7 +2,8 @@
   "name": "likecoin-button-sdk",
   "version": "1.0.0",
   "description": "LikeCoin button SDK",
-  "main": "src/sdk.js",
+  "main": "dist/likecoin-button.js",
+  "module": "src/sdk.esm.js",
   "scripts": {
     "lint": "eslint --ext .js src",
     "build": "webpack"
