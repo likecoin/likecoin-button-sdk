@@ -25,6 +25,8 @@ class LikeCoinButton {
 
     this.href = encodeURIComponent(this.href);
     const src = `https://button.like.co/in/embed/${this.likerId}/button?referrer=${this.href}`;
+
+    this.ref.textContent = '';
     this.ref.appendChild(document.createElement('div'));
     const iframe = document.createElement('iframe');
     iframe.setAttribute('src', src);

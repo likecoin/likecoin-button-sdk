@@ -35,6 +35,8 @@ elements.forEach((div) => {
   href = encodeURIComponent(href);
   const src = `https://button.like.co/in/embed/${likerId}/button?referrer=${href}`;
 
+  // eslint-disable-next-line no-param-reassign
+  div.textContent = ''; // clear all children before injecting
   // Inject a spacer for maintaining the aspect ratio for the `<iframe/>`
   div.appendChild(document.createElement('div'));
 
