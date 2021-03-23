@@ -10,6 +10,7 @@ class LikeCoinButton {
     this.likerId = config.likerId;
     this.ref = config.ref;
     this.href = config.href || (window && window.location.href) || '';
+    this.puid = config.puid;
     this.likeStyleElement = null;
     this.insertStyle();
   }
@@ -22,9 +23,15 @@ class LikeCoinButton {
     this.ref.classList.add('likecoin-embed', 'likecoin-button');
     this.ref.setAttribute('data-liker-id', this.likerId);
     this.ref.setAttribute('data-href', this.href);
+    this.ref.setAttribute('data-puid', this.puid);
 
     this.href = encodeURIComponent(this.href);
-    const src = `https://button.like.co/in/embed/${this.likerId}/button?referrer=${this.href}`;
+    let src = `https://button.like.co/in/embed/${this.likerId}/button?referrer=${this.href}`;
+
+    // Apply platform user ID
+    if (this.puid) {
+      src = `${src}&puid=${this.puid}`;
+    }
 
     this.ref.textContent = '';
     this.ref.appendChild(document.createElement('div'));
