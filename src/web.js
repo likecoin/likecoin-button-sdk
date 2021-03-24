@@ -33,7 +33,13 @@ elements.forEach((div) => {
     href = window.location.href;
   }
   href = encodeURIComponent(href);
-  const src = `https://button.like.co/in/embed/${likerId}/button?referrer=${href}`;
+  let src = `https://button.like.co/in/embed/${likerId}/button?referrer=${href}`;
+
+  // Get platform user ID, e.g. Author
+  const puid = div.getAttribute('data-puid');
+  if (puid) {
+    src = `${src}&puid=${puid}`;
+  }
 
   // eslint-disable-next-line no-param-reassign
   div.textContent = ''; // clear all children before injecting
