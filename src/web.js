@@ -23,17 +23,25 @@ document.body.appendChild(style);
 const elements = document.querySelectorAll('.likecoin-embed.likecoin-button');
 elements.forEach((div) => {
   const likerId = div.getAttribute('data-liker-id');
-  if (!likerId) {
+
+  const href = div.getAttribute('data-href') || window.location.href;
+
+  const iscnId = div.getAttribute('iscn-id');
+
+  if (!iscnId && !likerId) {
     // eslint-disable-next-line no-console
     console.error('Cannot get data-liker-id attribute from LikeCoin button element');
     return;
   }
-  let href = div.getAttribute('data-href');
-  if (!href) {
-    href = window.location.href;
-  }
-  href = encodeURIComponent(href);
-  let src = `https://button.like.co/in/embed/${likerId}/button?referrer=${href}`;
+
+  let src = iscnId
+    ? `https://button.like.co/in/embed/iscn/button?iscn_id=${encodeURIComponent(
+      iscnId,
+    )}`
+    : `https://button.like.co/in/embed/${likerId}/button?referrer=${encodeURIComponent(
+      href,
+    )}`;
+
 
   // Get platform user ID, e.g. Author
   const puid = div.getAttribute('data-puid');

@@ -6,8 +6,9 @@
 
 class LikeCoinButton {
   constructor(config) {
-    if (!config || !config.likerId) throw new Error('Missing config.likerId');
+    if (!config || (!config.likerId && !config.iscnId)) throw new Error('Missing config');
     this.likerId = config.likerId;
+    this.iscnId = config.iscnId;
     this.ref = config.ref;
     this.href = config.href || (window && window.location.href) || '';
     this.puid = config.puid;
@@ -16,17 +17,21 @@ class LikeCoinButton {
   }
 
   mount() {
+    let src = '';
     if (this.ref instanceof HTMLElement === false) {
       this.ref = document.querySelector(`${this.ref}`);
     }
     // set like user info
     this.ref.classList.add('likecoin-embed', 'likecoin-button');
-    this.ref.setAttribute('data-liker-id', this.likerId);
-    this.ref.setAttribute('data-href', this.href);
-    this.ref.setAttribute('data-puid', this.puid);
-
-    this.href = encodeURIComponent(this.href);
-    let src = `https://button.like.co/in/embed/${this.likerId}/button?referrer=${this.href}`;
+    if (this.iscnId) {
+      this.ref.setAttribute('iscn-id', this.iscnId);
+      src = `https://button.like.co/in/embed/iscn/button?iscn_id=${encodeURIComponent(this.iscnId)}`;
+    } else {
+      this.ref.setAttribute('data-liker-id', this.likerId);
+      this.ref.setAttribute('data-href', this.href);
+      this.ref.setAttribute('data-puid', this.puid);
+      src = `https://button.like.co/in/embed/${this.likerId}/button?referrer=${encodeURIComponent(this.href)}`;
+    }
 
     // Apply platform user ID
     if (this.puid) {
