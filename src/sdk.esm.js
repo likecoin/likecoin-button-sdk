@@ -24,7 +24,7 @@ class LikeCoinButton {
     // set like user info
     this.ref.classList.add('likecoin-embed', 'likecoin-button');
     if (this.iscnId) {
-      this.ref.setAttribute('iscn-id', this.iscnId);
+      this.ref.setAttribute('data-iscn-id', this.iscnId);
       src = `https://button.like.co/in/embed/iscn/button?iscn_id=${encodeURIComponent(this.iscnId)}`;
     } else {
       this.ref.setAttribute('data-liker-id', this.likerId);

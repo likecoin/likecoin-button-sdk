@@ -22,11 +22,8 @@ document.body.appendChild(style);
 
 const elements = document.querySelectorAll('.likecoin-embed.likecoin-button');
 elements.forEach((div) => {
-  const likerId = div.getAttribute('data-liker-id');
-
-  const href = div.getAttribute('data-href') || window.location.href;
-
-  const iscnId = div.getAttribute('iscn-id');
+  const { likerId, iscnId, puid } = div.dataset;
+  const href = div.dataset.href || window.location.href;
 
   if (!iscnId && !likerId) {
     // eslint-disable-next-line no-console
@@ -42,9 +39,7 @@ elements.forEach((div) => {
       href,
     )}`;
 
-
   // Get platform user ID, e.g. Author
-  const puid = div.getAttribute('data-puid');
   if (puid) {
     src = `${src}&puid=${puid}`;
   }
