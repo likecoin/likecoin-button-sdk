@@ -13,7 +13,6 @@ class LikeCoinButton {
     this.href = config.href || (window && window.location.href) || '';
     this.puid = config.puid;
     this.likeStyleElement = null;
-    this.insertStyle();
   }
 
   mount() {
@@ -45,6 +44,7 @@ class LikeCoinButton {
     iframe.setAttribute('frameborder', 0);
     iframe.setAttribute('scrolling', 'no');
     this.ref.appendChild(iframe);
+    this.insertStyle();
   }
 
   insertStyle() {

@@ -1,26 +1,29 @@
-const style = document.createElement('style');
-style.innerHTML = `
-.likecoin-button {
-  position: relative;
-  width: 100%;
-  max-width: 485px;
-  max-height: 240px;
-  margin: 0 auto;
-}
-.likecoin-button > div {
-  padding-top: 49.48454%;
-}
-.likecoin-button > iframe {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-}
-`;
-document.body.appendChild(style);
-
 const elements = document.querySelectorAll('.likecoin-embed.likecoin-button');
+
+if (elements.length) {
+  const style = document.createElement('style');
+  style.innerHTML = `
+  .likecoin-button {
+    position: relative;
+    width: 100%;
+    max-width: 485px;
+    max-height: 240px;
+    margin: 0 auto;
+  }
+  .likecoin-button > div {
+    padding-top: 49.48454%;
+  }
+  .likecoin-button > iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+  `;
+  document.body.appendChild(style);
+}
+
 elements.forEach((div) => {
   const { likerId, iscnId, puid } = div.dataset;
   const href = div.dataset.href || window.location.href;
