@@ -10,6 +10,9 @@
   },
   "author": "",
   "license": "GPL-3.0-or-later",
+  "dependencies": {
+    "uuid": "^8.3.2"
+  },
   "devDependencies": {
     "@babel/core": "^7.8.4",
     "@babel/preset-env": "^7.8.4",

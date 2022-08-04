@@ -1,6 +1,9 @@
-const elements = document.querySelectorAll('.likecoin-embed.likecoin-button');
+import { v4 as uuidv4 } from 'uuid';
+import { getLikeCoinWidgetBaseURL, setElementSize } from './common';
 
-if (elements.length) {
+const buttonElements = document.querySelectorAll('.likecoin-embed.likecoin-button');
+
+if (buttonElements.length) {
   const style = document.createElement('style');
   style.innerHTML = `
   .likecoin-button {
@@ -24,7 +27,7 @@ if (elements.length) {
   document.body.appendChild(style);
 }
 
-elements.forEach((div) => {
+buttonElements.forEach((div) => {
   const { likerId, iscnId, puid } = div.dataset;
   const href = div.dataset.href || window.location.href;
 
@@ -57,4 +60,45 @@ elements.forEach((div) => {
   iframe.setAttribute('frameborder', 0);
   iframe.setAttribute('scrolling', 'no');
   div.appendChild(iframe);
+});
+
+const nftWidgetElements = document.querySelectorAll('.likecoin-embed.likecoin-nft-widget');
+nftWidgetElements.forEach((el) => {
+  const { classId, testnet } = el.dataset;
+  if (!classId) {
+    // eslint-disable-next-line no-console
+    console.error('Cannot get data-class-id attribute from LikeCoin NFT Widget element');
+    return;
+  }
+  const isTestnet = testnet !== undefined;
+  const widgetId = uuidv4();
+  const src = `${getLikeCoinWidgetBaseURL(isTestnet)}/in/embed/nft/class/${classId}?wid=${widgetId}`;
+  el.childNodes.forEach((child) => el.removeChild(child));
+  const iframe = document.createElement('iframe');
+  iframe.setAttribute('src', src);
+  iframe.setAttribute('frameborder', 0);
+  iframe.setAttribute('scrolling', 'no');
+  // Set initial width same as wrapper width
+  iframe.style.width = `${el.clientWidth}px`;
+  iframe.style.maxWidth = '480px';
+  el.appendChild(iframe);
+
+  window.addEventListener('resize', () => {
+    window.requestAnimationFrame(() => {
+      setElementSize(iframe, { width: el.clientWidth });
+    });
+  });
+
+  window.addEventListener('message', (event) => {
+    if (
+      event.data
+      && event.data.widgetId === widgetId
+      && event.data.type === 'likecoin-nft-widget-resize'
+    ) {
+      const { height } = event.data;
+      if (height) {
+        setElementSize(iframe, { height });
+      }
+    }
+  });
 });
