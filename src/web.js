@@ -1,33 +1,19 @@
-import { createWidgetIframe, createNFTWidgetIframe, clearElementChildren } from './common';
+import { createNFTWidgetIframe } from './common';
+import { LikeCoinButton } from './button';
 
 const buttonElements = document.querySelectorAll('.likecoin-embed.likecoin-button');
 
 if (buttonElements.length) {
-  const style = document.createElement('style');
-  style.innerHTML = `
-  .likecoin-button {
-    position: relative;
-    width: 100%;
-    max-width: 485px;
-    max-height: 240px;
-    margin: 0 auto;
-  }
-  .likecoin-button > div {
-    padding-top: 49.48454%;
-  }
-  .likecoin-button > iframe {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-  }
-  `;
-  document.body.appendChild(style);
+  LikeCoinButton.insertStyle();
 }
 
 buttonElements.forEach((el) => {
-  const { likerId, iscnId, puid } = el.dataset;
+  const {
+    likerId,
+    iscnId,
+    puid,
+    isTestnet,
+  } = el.dataset;
   const href = el.dataset.href || window.location.href;
 
   if (!iscnId && !likerId) {
@@ -36,24 +22,13 @@ buttonElements.forEach((el) => {
     return;
   }
 
-  let src = iscnId
-    ? `https://button.like.co/in/embed/iscn/button?iscn_id=${encodeURIComponent(
-      iscnId,
-    )}`
-    : `https://button.like.co/in/embed/${likerId}/button?referrer=${encodeURIComponent(
-      href,
-    )}`;
-
-  // Get platform user ID, e.g. Author
-  if (puid) {
-    src = `${src}&puid=${puid}`;
-  }
-
-  clearElementChildren(el);
-  // Inject a spacer for maintaining the aspect ratio for the `<iframe/>`
-  el.appendChild(document.createElement('div'));
-  const iframe = createWidgetIframe(src);
-  el.appendChild(iframe);
+  LikeCoinButton.insertIframe(el, {
+    likerId,
+    iscnId,
+    href,
+    puid,
+    isTestnet,
+  });
 });
 
 const nftWidgetElements = document.querySelectorAll('.likecoin-embed.likecoin-nft-widget');
