@@ -43,7 +43,7 @@ export class LikeCoinButton {
     el.classList.add('likecoin-embed', 'likecoin-button');
 
     let src = '';
-    if (this.iscnId) {
+    if (iscnId) {
       src = `${getLikeCoinWidgetBaseURL(isTestnet)}/in/embed/iscn/button?iscn_id=${encodeURIComponent(iscnId)}`;
     } else {
       src = `${getLikeCoinWidgetBaseURL(isTestnet)}/in/embed/${likerId}/button?referrer=${encodeURIComponent(href)}`;
