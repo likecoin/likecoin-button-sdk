@@ -1,4 +1,8 @@
-import { clearElementChildren, createWidgetIframe, getLikeCoinWidgetBaseURL } from './common';
+import {
+  clearElementChildren,
+  createWidgetIframe,
+  getLikeCoinWidgetBaseURL,
+} from './common';
 
 /**
  * LikeButtonSdk Constructor

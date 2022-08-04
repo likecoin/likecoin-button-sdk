@@ -1,5 +1,5 @@
-import { createNFTWidgetIframe } from './common';
 import { LikeCoinButton } from './button';
+import { LikeCoinNFTWidget } from './nft-widget';
 
 const buttonElements = document.querySelectorAll('.likecoin-embed.likecoin-button');
 
@@ -40,7 +40,7 @@ nftWidgetElements.forEach((el) => {
     return;
   }
   const isTestnet = testnet !== undefined;
-  createNFTWidgetIframe(el, {
+  LikeCoinNFTWidget.insertIframe(el, {
     classId,
     isTestnet,
   });
