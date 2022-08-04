@@ -1,10 +1,12 @@
+import { clearElementChildren, createWidgetIframe } from './common';
+
+export * from './nft-widget';
 
 /**
  * LikeButtonSdk Constructor
  * @config liker info likerId:string ref:HtmlElement | string  href?:string
  */
-
-class LikeCoinButton {
+export class LikeCoinButton {
   constructor(config) {
     if (!config || (!config.likerId && !config.iscnId)) throw new Error('Missing config');
     this.likerId = config.likerId;
@@ -37,12 +39,9 @@ class LikeCoinButton {
       src = `${src}&puid=${this.puid}`;
     }
 
-    this.ref.textContent = '';
+    clearElementChildren(this.ref);
     this.ref.appendChild(document.createElement('div'));
-    const iframe = document.createElement('iframe');
-    iframe.setAttribute('src', src);
-    iframe.setAttribute('frameborder', 0);
-    iframe.setAttribute('scrolling', 'no');
+    const iframe = createWidgetIframe(src);
     this.ref.appendChild(iframe);
     this.insertStyle();
   }
