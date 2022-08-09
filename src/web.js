@@ -33,14 +33,15 @@ buttonElements.forEach((el) => {
 
 const nftWidgetElements = document.querySelectorAll('.likecoin-embed.likecoin-nft-widget');
 nftWidgetElements.forEach((el) => {
-  const { classId, testnet } = el.dataset;
-  if (!classId) {
+  const { iscnId, classId, testnet } = el.dataset;
+  if (!iscnId && !classId) {
     // eslint-disable-next-line no-console
-    console.error('Cannot get data-class-id attribute from LikeCoin NFT Widget element');
+    console.error('Cannot get data-iscn-id or data-class-id attribute from LikeCoin NFT Widget element');
     return;
   }
   const isTestnet = testnet !== undefined;
   LikeCoinNFTWidget.insertIframe(el, {
+    iscnId,
     classId,
     isTestnet,
   });
