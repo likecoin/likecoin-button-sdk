@@ -1,29 +1,20 @@
-const style = document.createElement('style');
-style.innerHTML = `
-.likecoin-button {
-  position: relative;
-  width: 100%;
-  max-width: 485px;
-  max-height: 240px;
-  margin: 0 auto;
-}
-.likecoin-button > div {
-  padding-top: 49.48454%;
-}
-.likecoin-button > iframe {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-}
-`;
-document.body.appendChild(style);
+import { LikeCoinButton } from './button';
+import { LikeCoinNFTWidget } from './nft-widget';
 
-const elements = document.querySelectorAll('.likecoin-embed.likecoin-button');
-elements.forEach((div) => {
-  const { likerId, iscnId, puid } = div.dataset;
-  const href = div.dataset.href || window.location.href;
+const buttonElements = document.querySelectorAll('.likecoin-embed.likecoin-button');
+
+if (buttonElements.length) {
+  LikeCoinButton.insertStyle();
+}
+
+buttonElements.forEach((el) => {
+  const {
+    likerId,
+    iscnId,
+    puid,
+    isTestnet,
+  } = el.dataset;
+  const href = el.dataset.href || window.location.href;
 
   if (!iscnId && !likerId) {
     // eslint-disable-next-line no-console
@@ -31,27 +22,34 @@ elements.forEach((div) => {
     return;
   }
 
-  let src = iscnId
-    ? `https://button.like.co/in/embed/iscn/button?iscn_id=${encodeURIComponent(
-      iscnId,
-    )}`
-    : `https://button.like.co/in/embed/${likerId}/button?referrer=${encodeURIComponent(
-      href,
-    )}`;
+  LikeCoinButton.insertIframe(el, {
+    likerId,
+    iscnId,
+    href,
+    puid,
+    isTestnet,
+  });
+});
 
-  // Get platform user ID, e.g. Author
-  if (puid) {
-    src = `${src}&puid=${puid}`;
+const nftWidgetElements = document.querySelectorAll('.likecoin-embed.likecoin-nft-widget');
+nftWidgetElements.forEach((el) => {
+  const {
+    iscnId,
+    classId,
+    testnet,
+    responsive,
+  } = el.dataset;
+  if (!iscnId && !classId) {
+    // eslint-disable-next-line no-console
+    console.error('Cannot get data-iscn-id or data-class-id attribute from LikeCoin NFT Widget element');
+    return;
   }
-
-  // eslint-disable-next-line no-param-reassign
-  div.textContent = ''; // clear all children before injecting
-  // Inject a spacer for maintaining the aspect ratio for the `<iframe/>`
-  div.appendChild(document.createElement('div'));
-
-  const iframe = document.createElement('iframe');
-  iframe.setAttribute('src', src);
-  iframe.setAttribute('frameborder', 0);
-  iframe.setAttribute('scrolling', 'no');
-  div.appendChild(iframe);
+  const isTestnet = testnet !== undefined;
+  const isResponsive = responsive !== undefined;
+  LikeCoinNFTWidget.insertIframe(el, {
+    iscnId,
+    classId,
+    isResponsive,
+    isTestnet,
+  });
 });

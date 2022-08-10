@@ -10,7 +10,7 @@ const commonConfig = {
         use: {
           loader: 'babel-loader',
           options: {
-            presets: ['@babel/preset-env']
+            presets: ['@babel/preset-env'],
           },
         },
       },
@@ -18,30 +18,33 @@ const commonConfig = {
   },
 };
 
-module.exports = [{
-  ...commonConfig,
-  entry: {
-    web: './src/web.js',
-  },
-  output: {
-    path: path.resolve(__dirname, 'dist', 'web', 'v1'),
-    filename: 'sdk.js',
-  },
-}, {
-  ...commonConfig,
-  entry: {
-    sdk: './src/sdk.esm.js',
-  },
-  output: {
-    globalObject: 'this', // mitigate window is undefined
-    path: path.resolve(__dirname, 'dist'),
-    filename: 'likecoin-button.js',
-    library: {
-      root: 'LikeCoinButton',
-      amd: 'likecoin-button',
-      commonjs: 'likecoin-button',
+module.exports = [
+  {
+    ...commonConfig,
+    entry: {
+      web: './src/web.js',
     },
-    libraryTarget: 'umd',
-    libraryExport: 'default',
+    output: {
+      path: path.resolve(__dirname, 'dist', 'web', 'v1'),
+      filename: 'sdk.js',
+    },
   },
-}];
+  {
+    ...commonConfig,
+    entry: {
+      sdk: './src/sdk.esm.js',
+    },
+    output: {
+      globalObject: 'this', // mitigate window is undefined
+      path: path.resolve(__dirname, 'dist'),
+      filename: 'likecoin-button.js',
+      library: {
+        root: 'LikeCoinButton',
+        amd: 'likecoin-button',
+        commonjs: 'likecoin-button',
+      },
+      libraryTarget: 'umd',
+      libraryExport: 'default',
+    },
+  },
+];
