@@ -12,6 +12,7 @@ export class LikeCoinNFTWidget {
       target,
       iscnId,
       classId,
+      isResponsive,
       isTestnet,
     } = config;
     if (!iscnId && !classId) {
@@ -20,6 +21,7 @@ export class LikeCoinNFTWidget {
     this.target = target;
     this.iscnId = iscnId;
     this.classId = classId;
+    this.isResponsive = !!isResponsive;
     this.isTestnet = isTestnet;
   }
 
@@ -34,6 +36,7 @@ export class LikeCoinNFTWidget {
     LikeCoinNFTWidget.insertIframe(target, {
       iscnId: this.iscnId,
       classId: this.classId,
+      isResponsive: this.isResponsive,
       isTestnet: this.isTestnet,
     });
   }
@@ -41,43 +44,57 @@ export class LikeCoinNFTWidget {
   static insertIframe(container, {
     iscnId,
     classId,
+    isResponsive = false,
     isTestnet,
   } = {}) {
-    let src = `${getLikeCoinWidgetBaseURL(isTestnet)}/in/embed/nft`;
+    const qs = new URLSearchParams();
+    let src = `${getLikeCoinWidgetBaseURL(isTestnet)}/in/embed`;
     if (iscnId) {
-      src = `${src}/iscn/${encodeURIComponent(iscnId)}`;
+      src = `${src}/iscn/button`;
+      qs.set('iscn_id', iscnId);
     } else if (classId) {
-      src = `${src}/class/${classId}`;
+      src = `${src}/nft/class/${classId}`;
     } else {
       throw new Error('Missing iscnId or classId');
     }
     const widgetId = uuidv4();
-    src = `${src}?wid=${widgetId}`;
+    qs.set('wid', widgetId);
+    if (isResponsive) {
+      qs.set('responsive', '1');
+    }
+    src = `${src}?${qs.toString()}`;
+
     const iframe = createWidgetIframe(src);
-    // Set initial width same as wrapper width
-    iframe.style.width = `${container.clientWidth}px`;
-    iframe.style.maxWidth = '480px';
+    if (isResponsive) {
+      // Set initial width same as wrapper width
+      iframe.style.width = `${container.clientWidth}px`;
+      iframe.style.maxWidth = '480px';
+
+      window.addEventListener('resize', () => {
+        window.requestAnimationFrame(() => {
+          setElementSize(iframe, { width: container.clientWidth });
+        });
+      });
+
+      window.addEventListener('message', (event) => {
+        if (
+          event.data
+          && event.data.widgetId === widgetId
+          && event.data.type === 'likecoin-nft-widget-resize'
+        ) {
+          const { height } = event.data;
+          if (height) {
+            setElementSize(iframe, { height });
+          }
+        }
+      });
+    } else {
+      iframe.style.width = '360px';
+      iframe.style.height = '480px';
+    }
     clearElementChildren(container);
     container.appendChild(iframe);
 
-    window.addEventListener('resize', () => {
-      window.requestAnimationFrame(() => {
-        setElementSize(iframe, { width: container.clientWidth });
-      });
-    });
-
-    window.addEventListener('message', (event) => {
-      if (
-        event.data
-        && event.data.widgetId === widgetId
-        && event.data.type === 'likecoin-nft-widget-resize'
-      ) {
-        const { height } = event.data;
-        if (height) {
-          setElementSize(iframe, { height });
-        }
-      }
-    });
     return iframe;
   }
 }
